@@ -30,6 +30,28 @@
 
 ### Решение 
 
+sudo apt install postgresql
+
+sudo apt install wget -y
+sudo wget https://repo.zabbix.com/zabbix/6.0/debian/pool/main/z/zabbix-release/zabbix-release_latest_6.0+debian11_all.deb
+sudo dpkg -i zabbix-release_latest_6.0+debian11_all.deb
+sudo apt update
+
+sudo apt install zabbix-server-pgsql zabbix-frontend-php php7.4-pgsql zabbix-apache-conf zabbix-sql-scripts
+
+sudo -u postgres createuser --pwprompt zabbix
+sudo -u postgres createdb -O zabbix zabbix 
+
+sudo zcat /usr/share/zabbix-sql-scripts/postgresql/server.sql.gz | sudo -u zabbix psql zabbix
+
+Отредактир файл /etc/zabbix/zabbix_server.conf 
+DBPassword=my_password
+
+sudo systemctl restart zabbix-server apache2
+sudo systemctl enable zabbix-server apache2
+
+![](img/img-01-01.png)
+
 ---
 
 ### Задание 2 
